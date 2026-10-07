@@ -1,3 +1,4 @@
 export const offers = {
-  async active() { return []; }
+  active: async () => [],
+  all: async () => [],
 };
