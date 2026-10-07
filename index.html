@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دليلك الطبي بكفرالشيخ | أطباء وخدمات طبية</title>
+  <meta name="description" content="ابحث عن الأطباء والعيادات والمراكز والصيدليات والمعامل والخدمات الطبية في كفرالشيخ.">
+  <link rel="canonical" href="index.html">
+  <meta property="og:title" content="دليلك الطبي بكفرالشيخ | أطباء وخدمات طبية">
+  <meta property="og:description" content="ابحث عن الأطباء والعيادات والمراكز والصيدليات والمعامل والخدمات الطبية في كفرالشيخ.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_EG">
+  <meta property="og:site_name" content="دليلك الطبي بكفرالشيخ">
+  <meta property="og:image" content="/brand/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#071F49">
+  <link rel="icon" href="/brand/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="header-root"></div>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="hero-section" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> كفرالشيخ</span>
+          <h1 class="hero__title" id="hero-title">دليلك الطبي <span>بكفرالشيخ</span></h1>
+          <p class="hero__tagline">كل خدماتك الطبية في مكان واحد</p>
+          <p class="hero__text">ابحث عن الطبيب أو الخدمة الطبية التي تحتاجها بسهولة.</p>
+
+          <form class="search-box" id="hero-search" action="search.html" method="get" role="search" aria-label="البحث عن طبيب أو خدمة">
+            <div class="search-box__label"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> بتدور على دكتور أو خدمة طبية؟</div>
+            <div class="search-box__row">
+              <div class="input-wrap">
+                <label class="sr-only" for="hero-q">ابحث</label>
+                <input class="input" id="hero-q" name="q" type="search" placeholder="ابحث عن دكتور، تخصص أو خدمة..." autocomplete="off" maxlength="80">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              </div>
+              <div>
+                <label class="sr-only" for="hero-area">اختر المنطقة</label>
+                <select class="select" id="hero-area" name="area">
+                  <option value="">اختر المنطقة</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn--primary btn--lg">ابحث الآن</button>
+            </div>
+          </form>
+
+          <div class="quick-search" id="quick-search" aria-label="بحث سريع">
+            <span class="quick-search__label">بحث سريع:</span>
+            <a class="chip" href="search.html?q=دكتور أطفال&specialty=sp-pediatrics">دكتور أطفال</a>
+            <a class="chip" href="search.html?q=دكتور أسنان&specialty=sp-dental">دكتور أسنان</a>
+            <a class="chip" href="search.html?specialty=sp-dermatology">جلدية</a>
+            <a class="chip" href="search.html?specialty=sp-internal">باطنة</a>
+            <a class="chip" href="search.html?specialty=sp-lab">معمل تحاليل</a>
+            <a class="chip" href="search.html?specialty=sp-radiology">أشعة</a>
+            <a class="chip" href="search.html?specialty=sp-pharmacy">صيدلية</a>
+          </div>
+        </div>
+        <div class="hero__visual" aria-hidden="true">
+          <img src="images/hero-visual.svg" alt="دليلك الطبي بكفرالشيخ - دليل الأطباء والخدمات الطبية" width="560" height="480" fetchpriority="high">
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CATEGORIES ================= -->
+    <section class="section section--white" id="categories-section" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title" id="categories-title">إيه اللي بتدور عليه؟</h2>
+            <p class="section-subtitle">اختر التخصص أو نوع الخدمة الطبية للوصول مباشرة إلى النتائج.</p>
+          </div>
+          <a class="section-link" href="specialties.html">كل التخصصات <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="category-grid" id="category-grid"></div>
+      </div>
+    </section>
+
+    <!-- ================= FEATURED PROVIDERS ================= -->
+    <section class="section" id="featured-section" aria-labelledby="featured-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title" id="featured-title">أطباء ومقدمو خدمة مميزون</h2>
+            <p class="section-subtitle">مقدمو الخدمات الطبية المسجّلون في الدليل.</p>
+          </div>
+          <a class="section-link" href="search.html">عرض الكل <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div id="featured-root"><div class="provider-grid"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div></div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section section--soft" id="how-section" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title" id="how-title">كيف يعمل دليلك الطبي؟</h2>
+            <p class="section-subtitle">ثلاث خطوات بسيطة للوصول إلى الخدمة الطبية المناسبة.</p>
+          </div>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <div class="step__num">01</div>
+            <div class="step__icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div>
+            <h3 class="step__title">ابحث</h3>
+            <p class="step__text">ابحث عن الطبيب أو الخدمة التي تحتاجها.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step__num">02</div>
+            <div class="step__icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></div>
+            <h3 class="step__title">اختار</h3>
+            <p class="step__text">شاهد التفاصيل والخدمات المتاحة.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step__num">03</div>
+            <div class="step__icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></div>
+            <h3 class="step__title">تواصل</h3>
+            <p class="step__text">تواصل مباشرة أو اطلب من دليلك الطبي مساعدتك.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HELP CTA ================= -->
+    <section class="section" id="help-section">
+      <div class="container">
+        <div class="cta-banner reveal">
+          <div>
+            <h2 class="cta-banner__title">مش لاقي اللي بتدور عليه؟</h2>
+            <p class="cta-banner__text">ابعتلنا طلبك وإحنا نساعدك تلاقي الخدمة المناسبة.</p>
+          </div>
+          <button type="button" class="btn btn--gold btn--lg" data-open-lead data-source="home-help">اطلب المساعدة</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OFFERS (only if real offers exist) ================= -->
+    <section class="section section--white" id="offers-section" aria-labelledby="offers-title" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title" id="offers-title">عروض طبية مميزة</h2>
+            <p class="section-subtitle">عروض حالية من مقدمي الخدمات المسجّلين في الدليل.</p>
+          </div>
+          <a class="section-link" href="offers.html">كل العروض <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="provider-grid" id="offers-root"></div>
+      </div>
+    </section>
+
+    <!-- ================= FOR PROVIDERS ================= -->
+    <section class="section section--soft" id="providers-cta-section" aria-labelledby="providers-cta-title">
+      <div class="container for-providers">
+        <div>
+          <span class="eyebrow eyebrow--gold"><i class="fa-solid fa-hospital-user" aria-hidden="true"></i> لمقدمي الخدمات الطبية</span>
+          <h2 class="section-title" id="providers-cta-title">أنت مقدم خدمة طبية؟</h2>
+          <p class="section-subtitle">أضف خدمتك إلى دليلك الطبي بكفرالشيخ ووصل خدماتك للمرضى الباحثين عنها.</p>
+          <div class="mt-6 flex gap-2 wrap">
+            <button type="button" class="btn btn--primary btn--lg" data-open-lead data-lead-type="PROVIDER" data-source="home-provider">أضف خدمتك</button>
+            <a class="btn btn--outline btn--lg" href="for-providers.html">اعرف أكثر</a>
+          </div>
+        </div>
+        <ul class="for-providers__list" aria-label="من يمكنه الانضمام">
+          <li><i class="fa-solid fa-user-doctor" aria-hidden="true"></i> الأطباء</li>
+          <li><i class="fa-solid fa-clinic-medical" aria-hidden="true"></i> أصحاب العيادات</li>
+          <li><i class="fa-solid fa-house-medical" aria-hidden="true"></i> المراكز الطبية</li>
+          <li><i class="fa-solid fa-vial" aria-hidden="true"></i> المعامل</li>
+          <li><i class="fa-solid fa-prescription-bottle-medical" aria-hidden="true"></i> الصيدليات</li>
+          <li><i class="fa-solid fa-x-ray" aria-hidden="true"></i> مراكز الأشعة</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-root"></div>
+  <script type="module" src="js/pages/home.js"></script>
+</body>
+</html>

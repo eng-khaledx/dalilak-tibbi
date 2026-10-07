@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>البحث عن أطباء وخدمات طبية | دليلك الطبي بكفرالشيخ</title>
+  <link rel="canonical" href="search.html">
+  <meta property="og:title" content="البحث عن أطباء وخدمات طبية | دليلك الطبي بكفرالشيخ">
+  <meta property="og:description" content="ابحث وفلتر الأطباء والعيادات والمعامل والصيدليات والمراكز الطبية في كفرالشيخ حسب التخصص والمنطقة ونوع الخدمة.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_EG">
+  <meta property="og:site_name" content="دليلك الطبي بكفرالشيخ">
+  <meta property="og:image" content="brand/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#071F49">
+  <link rel="icon" href="brand/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="header-root"></div>
+
+  <main id="main">
+    <section class="page-head" id="search-head">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="مسار التنقل">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li aria-current="page">البحث</li>
+        </ol>
+        <h1 class="page-head__title" id="results-title">البحث عن أطباء وخدمات طبية</h1>
+        <p class="page-head__text" id="results-subtitle">ابحث بالاسم أو التخصص أو الخدمة أو المنطقة.</p>
+
+        <form class="search-box" id="search-form" role="search" style="box-shadow:var(--shadow-sm)">
+          <div class="search-box__row">
+            <div class="input-wrap">
+              <label class="sr-only" for="q">ابحث</label>
+              <input class="input" id="q" name="q" type="search" placeholder="ابحث عن دكتور، تخصص أو خدمة..." autocomplete="off" maxlength="80">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            </div>
+            <div>
+              <label class="sr-only" for="area-top">المنطقة</label>
+              <select class="select" id="area-top" name="area"><option value="">كل المناطق</option></select>
+            </div>
+            <button type="submit" class="btn btn--primary">ابحث الآن</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:var(--space-8)">
+      <div class="container results-layout">
+        <!-- Desktop filters -->
+        <aside class="filters card card--pad" id="filters-desktop" aria-label="الفلاتر">
+          <div id="filters-content-desktop"></div>
+        </aside>
+
+        <div>
+          <div class="results-toolbar">
+            <div class="results-count" id="results-count" aria-live="polite"></div>
+            <button type="button" class="btn btn--outline btn--sm mobile-filter-btn" id="open-filters"><i class="fa-solid fa-sliders" aria-hidden="true"></i> الفلاتر <span class="badge badge--gold" id="filters-badge" hidden></span></button>
+          </div>
+          <div class="active-filters" id="active-filters"></div>
+          <div id="results-root"><div class="provider-grid"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div></div>
+          <nav class="pagination" id="pagination" aria-label="الصفحات"></nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile filter drawer -->
+  <div class="drawer" id="filters-drawer" aria-hidden="true">
+    <div class="drawer__backdrop" data-close-drawer></div>
+    <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="الفلاتر">
+      <div class="flex items-center justify-between mb-4">
+        <strong style="color:var(--color-navy)">الفلاتر</strong>
+        <button type="button" class="btn btn--soft btn--icon" data-close-drawer aria-label="إغلاق"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <div id="filters-content-mobile"></div>
+      <button type="button" class="btn btn--primary btn--block mt-4" data-close-drawer>عرض النتائج</button>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+  <script type="module" src="js/pages/search.js"></script>
+</body>
+</html>

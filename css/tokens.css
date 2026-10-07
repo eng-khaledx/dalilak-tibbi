@@ -1,0 +1,97 @@
+/* =========================================================
+   دليلك الطبي بكفرالشيخ — Design Tokens
+   Single source of truth for colors, type, spacing, radius,
+   shadows and motion. Do not hard-code shades elsewhere.
+   ========================================================= */
+:root {
+  /* Brand */
+  --color-navy: #071F49;
+  --color-navy-700: #0E2D63;
+  --color-navy-600: #17407F;
+  --color-navy-500: #234F97;
+  --color-gold: #D9A72E;
+  --color-gold-600: #C1911F;
+  --color-gold-100: #FBF3DF;
+
+  /* Surfaces */
+  --color-bg: #F8FBFD;
+  --color-surface: #FFFFFF;
+  --color-blue-50: #EAF5FC;
+  --color-blue-100: #DCEFF9;
+  --color-blue-200: #BFE3F5;
+  --color-blue-300: #93CFEC;
+
+  /* Text */
+  --color-text: #0B1F3F;
+  --color-text-muted: #4A5A75;
+  --color-text-subtle: #7A879C;
+  --color-text-on-dark: #FFFFFF;
+
+  /* Borders */
+  --color-border: #E3EBF3;
+  --color-border-strong: #CBD8E6;
+
+  /* Semantic */
+  --color-success: #1B8A5A;
+  --color-success-bg: #E6F6EE;
+  --color-warning: #B7791F;
+  --color-warning-bg: #FDF3E1;
+  --color-danger: #C0392B;
+  --color-danger-bg: #FBE9E7;
+  --color-info: #1F6FB2;
+  --color-info-bg: #EAF5FC;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #1DA851;
+
+  /* Typography */
+  --font-sans: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 2.75rem;
+  --leading-tight: 1.25;
+  --leading-normal: 1.7;
+
+  /* Spacing (4pt grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* Shadows (kept soft) */
+  --shadow-xs: 0 1px 2px rgba(7, 31, 73, 0.05);
+  --shadow-sm: 0 2px 8px rgba(7, 31, 73, 0.06);
+  --shadow-md: 0 8px 24px rgba(7, 31, 73, 0.08);
+  --shadow-lg: 0 16px 40px rgba(7, 31, 73, 0.10);
+
+  /* Layout */
+  --container-max: 1200px;
+  --header-height: 68px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgba(35, 79, 151, 0.25);
+}
