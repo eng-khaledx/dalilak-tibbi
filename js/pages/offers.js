@@ -1,4 +1,3 @@
-
 import { esc } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
 import { providers } from '../services/providers.js';
@@ -96,5 +95,3 @@ async function init() {
 }
 
 init();
-
-1
