@@ -262,7 +262,7 @@ async function init() {
     const areas = await (taxonomy.areas ? taxonomy.areas({ cityId: CONFIG.defaultCity?.id }) : Promise.resolve([])).catch(() => []);
     const services = await (taxonomy.services ? taxonomy.services() : Promise.resolve([])).catch(() => []);
     const live = await (offers.active ? offers.active() : Promise.resolve([])).catch(() => []);
-    tax = { specialties: specialties || [], areas: areas || [], services: services || [] };
+    tax = { specialties: (specialties || []).filter((s) => s.provider_type === 'DOCTOR'), areas: areas || [], services: services || [] };
     liveOffers = live || [];
   } catch (err) {
     console.error('taxonomy load error', err);

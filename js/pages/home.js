@@ -4,7 +4,7 @@ import { mountLayout } from '../components/layout.js';
 import { initReveal, emptyState, errorState } from '../components/ui.js';
 import { providerGrid } from '../components/provider-card.js';
 import { bindLeadTriggers } from '../components/lead-modal.js';
-import { taxonomy } from '../services/taxonomy.js';
+import { taxonomy, categoryHref } from '../services/taxonomy.js';
 import { providers } from '../services/providers.js';
 import { offers } from '../services/offers.js';
 import { setJsonLd, organizationJsonLd } from '../lib/seo.js';
@@ -40,7 +40,7 @@ async function loadCategories() {
   try {
     const specs = await taxonomy.specialties();
     root.innerHTML = specs.map((s) => `
-      <a class="category-card" href="search.html?specialty=${encodeURIComponent(s.id)}">
+      <a class="category-card" href="${categoryHref(s)}">
         <span class="category-card__icon"><i class="fa-solid ${esc(s.icon || 'fa-stethoscope')}" aria-hidden="true"></i></span>
         <span class="category-card__label">${esc(s.name_ar)}</span>
       </a>`).join('');
