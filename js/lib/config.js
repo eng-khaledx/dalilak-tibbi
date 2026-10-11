@@ -70,16 +70,69 @@ export const CONFIG = Object.freeze({
   },
 });
 
+/**
+ * Keys are the canonical values stored/queried across the app (search.js
+ * `?type=DOCTOR`, admin forms). `specialties` feeds the filters and forms.
+ * Lowercase aliases (see TYPE_ALIASES) are accepted for DB rows that use
+ * `doctor | lab | radiology | pharmacy | hospital | clinic`.
+ */
 export const PROVIDER_TYPES = Object.freeze({
-  DOCTOR: { label: 'طبيب', icon: 'fa-user-doctor', plural: 'أطباء' },
-  DENTAL_CLINIC: { label: 'عيادة أسنان', icon: 'fa-tooth', plural: 'عيادات أسنان' },
-  PHARMACY: { label: 'صيدلية', icon: 'fa-prescription-bottle-medical', plural: 'صيدليات' },
-  LAB: { label: 'معمل تحاليل', icon: 'fa-vial', plural: 'معامل تحاليل' },
-  RADIOLOGY_CENTER: { label: 'مركز أشعة', icon: 'fa-x-ray', plural: 'مراكز أشعة' },
-  MEDICAL_CENTER: { label: 'مركز طبي', icon: 'fa-house-medical', plural: 'مراكز طبية' },
-  HOSPITAL: { label: 'مستشفى', icon: 'fa-hospital', plural: 'مستشفيات' },
-  PHYSIOTHERAPY_CENTER: { label: 'مركز علاج طبيعي', icon: 'fa-person-walking', plural: 'مراكز علاج طبيعي' },
+  DOCTOR: {
+    label: 'طبيب', icon: 'fa-user-doctor', plural: 'أطباء',
+    specialties: [
+      'قلب وأوعية دموية', 'مخ وأعصاب', 'عظام ومفاصل', 'جلدية وتناسلية',
+      'أطفال وحديثي الولادة', 'نساء وتوليد', 'أنف وأذن وحنجرة', 'عيون',
+      'أسنان', 'جراحة عامة', 'جراحة تجميل', 'جراحة أوعية دموية',
+      'مسالك بولية', 'صدر وحساسية', 'باطنة عامة', 'كلى',
+      'كبد وجهاز هضمي', 'أورام', 'نفسية وعصبية', 'تخاطب',
+      'علاج طبيعي وروماتيزم', 'تغذية علاجية', 'سمنة ونحافة',
+      'ذكورة وعقم', 'حساسية ومناعة', 'روماتيزم', 'سكر وغدد صماء',
+      'أوعية دموية', 'جراحة قلب وصدر', 'جراحة مخ وأعصاب',
+    ],
+  },
+  DENTAL_CLINIC: { label: 'عيادة أسنان', icon: 'fa-tooth', plural: 'عيادات أسنان', specialties: [] },
+  PHARMACY: {
+    label: 'صيدلية', icon: 'fa-prescription-bottle-medical', plural: 'صيدليات',
+    specialties: ['صيدلية عامة', 'صيدلية 24 ساعة', 'صيدلية توصيل'],
+  },
+  LAB: {
+    label: 'معمل تحاليل', icon: 'fa-vial', plural: 'معامل تحاليل',
+    specialties: ['تحاليل طبية', 'تحاليل كورونا', 'تحاليل وراثية'],
+  },
+  RADIOLOGY_CENTER: {
+    label: 'مركز أشعة', icon: 'fa-x-ray', plural: 'مراكز أشعة',
+    specialties: ['أشعة عادية', 'أشعة مقطعية', 'رنين مغناطيسي', 'سونار', 'ماموجرافي'],
+  },
+  MEDICAL_CENTER: {
+    label: 'مركز طبي', icon: 'fa-house-medical', plural: 'مراكز طبية',
+    specialties: ['مركز طبي', 'عيادات متخصصة'],
+  },
+  HOSPITAL: {
+    label: 'مستشفى', icon: 'fa-hospital', plural: 'مستشفيات',
+    specialties: ['مستشفى عام', 'مستشفى خاص', 'مستشفى جامعي'],
+  },
+  PHYSIOTHERAPY_CENTER: { label: 'مركز علاج طبيعي', icon: 'fa-person-walking', plural: 'مراكز علاج طبيعي', specialties: [] },
 });
+
+/** DB-friendly lowercase type values -> canonical PROVIDER_TYPES keys */
+export const TYPE_ALIASES = Object.freeze({
+  doctor: 'DOCTOR',
+  dental: 'DENTAL_CLINIC',
+  pharmacy: 'PHARMACY',
+  lab: 'LAB',
+  radiology: 'RADIOLOGY_CENTER',
+  clinic: 'MEDICAL_CENTER',
+  hospital: 'HOSPITAL',
+  physiotherapy: 'PHYSIOTHERAPY_CENTER',
+});
+
+/** Resolve any stored type value (canonical or alias) to a PROVIDER_TYPES key. */
+export function normalizeType(value) {
+  if (!value) return 'DOCTOR';
+  const v = String(value);
+  if (PROVIDER_TYPES[v]) return v;
+  return TYPE_ALIASES[v.toLowerCase()] || 'DOCTOR';
+}
 
 export const LEAD_STATUSES = Object.freeze({
   NEW: { label: 'جديد', badge: 'badge--info' },

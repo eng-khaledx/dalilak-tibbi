@@ -1,4 +1,4 @@
-import { PROVIDER_TYPES } from '../lib/config.js';
+import { PROVIDER_TYPES, normalizeType } from '../lib/config.js';
 import { esc } from '../lib/utils.js';
 import { whatsapp } from '../services/whatsapp.js';
 
@@ -7,33 +7,34 @@ export function providerUrl(p) {
 }
 
 export function providerCard(p, opts = {}) {
-  const type = PROVIDER_TYPES[p.provider_type] || { label: 'طبيب', icon: 'fa-user-doctor' };
+  const type = PROVIDER_TYPES[normalizeType(p.provider_type || p.type)];
   const url = providerUrl(p);
-  const avatar = p.image_url
-    ? `<img src="${esc(p.image_url)}" alt="${esc(p.name_ar)}" loading="lazy" width="56" height="56" style="width:56px;height:56px;border-radius:14px;object-fit:cover" onerror="this.style.display='none'">`
-    : `<div class="doc-avatar"><i class="fa-solid fa-user-doctor"></i></div>`;
+  const avatar = `<div class="doc-avatar"><i class="fa-solid ${esc(type.icon)}" aria-hidden="true"></i>${
+    p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name_ar)}" loading="lazy" width="56" height="56" onerror="this.remove()">` : ''
+  }</div>`;
   const whatsappLink = whatsapp.providerInquiryLink ? whatsapp.providerInquiryLink(p.name_ar) : (p.phone ? `https://wa.me/2${p.phone.replace(/\D/g,'')}` : '#');
   const spec = p.specialty_name || '';
   const area = p.area_name || '';
-  const priceText = p.price ? `${esc(p.price)} ج.م` : '--';
+  const price = p.price || p.consultation_price;
+  const priceText = price ? `${esc(price)} ج.م` : '--';
 
   return `
   <article class="doc-card" data-id="${esc(p.id)}">
     <div class="doc-card__head">
       <div class="doc-card__meta">
         <div class="doc-type">${esc(type.label)} <span class="dot">·</span> <span class="badge-featured">مميز</span></div>
-        <h3 class="doc-name"><a href="${url}" style="color:inherit;text-decoration:none">${esc(p.name_ar)}</a></h3>
+        <h3 class="doc-name"><a href="${url}">${esc(p.name_ar)}</a></h3>
         <div class="doc-sub">
           ${spec ? `<span><i class="fa-solid fa-stethoscope"></i> ${esc(spec)}</span>` : ''}
           ${area ? `<span><i class="fa-solid fa-location-dot"></i> ${esc(area)}</span>` : ''}
         </div>
         <div class="doc-price">سعر الكشف: <b>${priceText}</b></div>
       </div>
-      <div style="width:56px;height:56px;flex-shrink:0">${avatar}</div>
+      ${avatar}
     </div>
     <div class="doc-card__actions">
-      <a class="btn--whatsapp" href="${whatsappLink}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
-      <a class="btn--profile" href="${url}">عرض الملف</a>
+      <a class="btn btn--whatsapp" href="${whatsappLink}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> واتساب</a>
+      <a class="btn btn--outline btn--profile" href="${url}">عرض الملف</a>
     </div>
   </article>`;
 }
