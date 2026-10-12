@@ -1,31 +1,43 @@
 // providers من js/data/catalog.js - متوافق مع search.js + provider.html
 import { PROVIDERS } from '../data/catalog.js';
+import { TYPE_ALIASES } from '../lib/config.js';
 
 const DATA = PROVIDERS.filter((p) => p.active && p.verified);
 
 const SPEC_ALIASES = {
-  skin: 'جلدية', derma: 'جلدية', dermatology: 'جلدية', 'جلديه': 'جلدية',
+  skin: 'جلدية', derma: 'جلدية', dermatology: 'جلدية',
   cardio: 'قلب', heart: 'قلب', cardiology: 'قلب',
-  pediatric: 'أطفال', pediatrics: 'أطفال', children: 'أطفال', 'اطفال': 'أطفال',
+  pediatric: 'أطفال', pediatrics: 'أطفال', children: 'أطفال',
   bones: 'عظام', ortho: 'عظام',
 };
 
-function matches(p, { q, specialtyId, specialty, areaId, area, type }) {
-  let s = String(specialtyId || specialty || '').trim().toLowerCase();
-  s = (SPEC_ALIASES[s] || s).toLowerCase();
-  const a = String(areaId || area || '').trim().toLowerCase();
-  const qq = String(q || '').trim().toLowerCase();
+/** توحيد النص العربي للمقارنة: بدون همزات/تشكيل، ي=ى، ه=ة، lowercase */
+export function norm(v) {
+  return String(v ?? '')
+    .toLowerCase()
+    .replace(/[ً-ْـ]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
-  if (type && p.type !== type) return false;
-  if (s && s !== 'all') {
-    const spec = `${p.specialty_id} ${p.specialty_name}`.toLowerCase();
-    if (p.specialty_id.toLowerCase() !== s && !spec.includes(s)) return false;
-  }
-  if (a && !(p.area_name || '').toLowerCase().includes(a)) return false;
-  if (qq) {
-    const hay = `${p.name_ar} ${p.specialty_name} ${p.area_name} ${p.address}`.toLowerCase();
-    if (!hay.includes(qq)) return false;
-  }
+function typeKey(t) {
+  if (!t) return '';
+  return TYPE_ALIASES[String(t).toLowerCase()] || String(t).toUpperCase();
+}
+
+function matches(p, { q, specialtyId, specialty, areaId, area, type }) {
+  const raw = String(specialtyId || specialty || '').trim();
+  const s = norm(SPEC_ALIASES[raw.toLowerCase()] || raw);
+  const a = norm(areaId || area);
+  const qq = norm(q);
+
+  if (type && p.type !== typeKey(type)) return false;
+  if (s && s !== 'all' && !norm(`${p.specialty_id} ${p.specialty_name}`).includes(s)) return false;
+  if (a && !norm(p.area_name).includes(a)) return false;
+  if (qq && !norm(`${p.name_ar} ${p.specialty_name} ${p.area_name} ${p.address}`).includes(qq)) return false;
   return true;
 }
 
@@ -59,6 +71,9 @@ export const providers = {
   },
 
   featured: async (limit = 20) => (limit <= 12 ? diverseFeatured(limit) : DATA.slice(0, limit)),
+
+  /** كل النتائج بدون pagination (للعروض وغيرها) */
+  list: async (filters = {}) => DATA.filter((p) => matches(p, filters)),
 
   search: async ({ q, specialtyId, specialty, areaId, area, type, page = 1 } = {}) => {
     const filtered = DATA.filter((p) => matches(p, { q, specialtyId, specialty, areaId, area, type }));

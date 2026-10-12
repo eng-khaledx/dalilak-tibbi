@@ -12,7 +12,7 @@ const SPECS = [
   ['obgyn', 'نساء وتوليد', 'fa-person-pregnant'],
   ['dermatology', 'جلدية', 'fa-spa'],
   ['ent', 'أنف وأذن وحنجرة', 'fa-ear-listen'],
-  ['ophthalmology', 'رمد (عيون)', 'fa-eye'],
+  ['ophthalmology', 'رمد', 'fa-eye'],
   ['dental', 'أسنان', 'fa-tooth'],
   ['neurology', 'مخ وأعصاب', 'fa-brain'],
   ['internal', 'باطنة', 'fa-stethoscope'],
@@ -87,6 +87,7 @@ cosm.forEach((n, k) => add({ id: 'cosm-' + (k + 1), name: n, catSlug: 'cosmetic'
 
 // Legacy ids still referenced by offers (js/services/offers.js, js/pages/offers.js)
 add({ id: 'dr-noura-sayed', name: 'د. نورا السيد', catSlug: 'dermatology', price: 300, is_featured: false });
+add({ id: 'dr-sara-ali', name: 'د. سارة علي', catSlug: 'pediatrics', price: 300, area: 'دسوق', address: 'دسوق - شارع الجيش', is_featured: false });
 add({ id: 'dr-ahmed-mansour', name: 'د. أحمد منصور', catSlug: 'cardiology', price: 350, is_featured: false });
 
 /* ---------- JS catalog ---------- */

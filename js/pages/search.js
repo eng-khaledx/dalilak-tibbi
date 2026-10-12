@@ -32,7 +32,6 @@ const SPECIALTY_MAP = {
   'pediatrics': 'أطفال',
   'children': 'أطفال',
   'اطفال': 'أطفال',
-  'رمد': 'رمد (عيون)',
   'bones': 'عظام',
   'ortho': 'عظام',
 };

@@ -1,3 +1,5 @@
+import { providers } from './providers.js';
+
 // عروض حقيقية - مبنية على الدكاترة اللي عندك فعلا
 const REAL_OFFERS = [
   { 
@@ -90,6 +92,52 @@ const REAL_OFFERS = [
     badge: 'أوفر باقة',
     badge_color: '#06b6d4'
   },
+  {
+    id: 'offer_7',
+    provider_id: 'lab-1',
+    title: 'خصم 20% على التحاليل - معمل البرج',
+    description: 'خصم على كل التحاليل الطبية بالمعمل',
+    discount: 20,
+    old_price: 500,
+    new_price: 400,
+    tag: 'تحاليل',
+    type: 'تحاليل',
+    specialty: 'معامل تحاليل',
+    provider_type: 'lab',
+    valid_until: '2026-11-05',
+    badge: 'خصم',
+    badge_color: '#0ea5e9'
+  },
+  {
+    id: 'offer_8',
+    provider_id: 'dr-dental-1',
+    title: 'تنظيف أسنان مجاني مع كل حشو',
+    description: 'تنظيف وتلميع مجاني عند عمل أي حشو',
+    discount: 30,
+    old_price: 350,
+    new_price: 245,
+    tag: 'أسنان',
+    type: 'أسنان',
+    specialty: 'أسنان',
+    valid_until: '2026-11-10',
+    badge: 'مجاني',
+    badge_color: '#f59e0b'
+  },
+  {
+    id: 'offer_9',
+    provider_id: 'dr-ophthalmology-1',
+    title: 'كشف رمد مجاني للأطفال',
+    description: 'كشف رمد للأطفال بدون رسوم',
+    discount: 100,
+    old_price: 250,
+    new_price: 0,
+    tag: 'رمد',
+    type: 'رمد',
+    specialty: 'رمد',
+    valid_until: '2026-11-10',
+    badge: 'مجاني',
+    badge_color: '#ec4899'
+  },
 ];
 
 export const offers = {
@@ -104,4 +152,15 @@ export const offers = {
   },
   get: async (id) => REAL_OFFERS.find(o => o.id === id) || null,
   byProvider: async (provider_id) => REAL_OFFERS.filter(o => o.provider_id === provider_id),
+
+  /** مقدمو الخدمة المطابقين لتخصص/نوع العرض فقط (مش كل الدكاترة) */
+  getDoctorsForOffer: (offer) => getDoctorsForOffer(offer),
 };
+
+export async function getDoctorsForOffer(offer) {
+  if (!offer) return [];
+  const specialty = offer.specialty || offer.tag || '';
+  const type = offer.provider_type || '';
+  if (!specialty && !type) return offer.provider_id ? [await providers.get(offer.provider_id)].filter(Boolean) : [];
+  return providers.list({ specialty, type });
+}

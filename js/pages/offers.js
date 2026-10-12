@@ -7,10 +7,19 @@ try { mountLayout(); } catch(e){}
 
 const OFFERS_MOCK = [
   { id: 'off1', provider_id: 'dr-noura-sayed', title: 'كشف جلدية + متابعة مجانية', discount: 30, old_price: 250, new_price: 175, tag: 'جلدية', valid_until: '2026-10-15', type: 'كشف' },
-  { id: 'off2', provider_id: 'dr-sara-ali', title: 'باقة متابعة أطفال 3 شهور', discount: 40, old_price: 300, new_price: 180, tag: 'أطفال', valid_until: '2026-10-20', type: 'أطفال' },
+  { id: 'off2', provider_id: 'dr-sara-ali', specialty: 'أطفال', title: 'باقة متابعة أطفال 3 شهور', discount: 40, old_price: 300, new_price: 180, tag: 'أطفال', valid_until: '2026-10-20', type: 'أطفال' },
   { id: 'off3', provider_id: 'dr-ahmed-mansour', title: 'رسم قلب + كشف مجانا', discount: 50, old_price: 400, new_price: 200, tag: 'قلب', valid_until: '2026-10-10', type: 'قلب' },
   { id: 'off4', provider_id: 'dr-noura-sayed', title: 'جلسة ديرما بن + كشف', discount: 25, old_price: 500, new_price: 375, tag: 'جلدية', valid_until: '2026-10-25', type: 'جلدية' },
 ];
+
+/** رابط البحث لنفس تخصص/نوع العرض بس */
+function offerSearchUrl(offer) {
+  const p = new URLSearchParams();
+  if (offer.provider_type) p.set('type', offer.provider_type);
+  const spec = offer.specialty || offer.tag;
+  if (spec && spec !== 'عام') p.set('specialty', spec);
+  return `search.html?${p.toString()}`;
+}
 
 function offerCard(offer, provider) {
   const name = provider?.name_ar || provider?.name || 'دكتور';
@@ -41,6 +50,7 @@ function offerCard(offer, provider) {
       <div style="display:flex;gap:8px;margin-top:14px">
         <a href="${wa}" target="_blank" style="flex:1;background:#25D366;color:#fff;text-align:center;padding:10px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px"><i class="fa-brands fa-whatsapp"></i> احجز العرض</a>
         <a href="provider.html?id=${esc(offer.provider_id)}" style="padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#334155;font-size:14px">الملف</a>
+        <a href="${offerSearchUrl(offer)}" style="padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#334155;font-size:14px">كل ${esc(offer.specialty || offer.tag || 'الدكاترة')}</a>
       </div>
     </div>
   </div>`;
@@ -68,8 +78,7 @@ async function init() {
   // حمل بيانات الدكاترة
   const providersMap = {};
   try {
-    const res = await providers.search({});
-    const list = res.items || res || [];
+    const list = await providers.all();
     list.forEach(p => providersMap[p.id] = p);
   } catch(e){}
 
