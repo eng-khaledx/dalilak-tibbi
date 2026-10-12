@@ -1,6 +1,28 @@
 import { PROVIDER_TYPES, normalizeType } from '../lib/config.js';
 import { esc } from '../lib/utils.js';
+import { norm } from '../lib/match.js';
 import { whatsapp } from '../services/whatsapp.js';
+
+/** أيقونة دائرية بجراديانت حسب التخصص / نوع مقدم الخدمة */
+const ICON_BY_SPECIALTY = [
+  ["اطفال", ["#10b981", "#065f46"], "👶"],
+  ["نساء", ["#ec4899", "#be185d"], "🤰"],
+  ["اسنان", ["#06b6d4", "#0891b2"], "🦷"],
+  ["عظام", ["#f59e0b", "#d97706"], "🦴"],
+  ["باطنه", ["#8b5cf6", "#7c3aed"], "🫀"],
+];
+const ICON_BY_TYPE = {
+  LAB: [["#3b82f6", "#1d4ed8"], "🧪"],
+  PHARMACY: [["#10b981", "#047857"], "💊"],
+  RADIOLOGY_CENTER: [["#6366f1", "#4f46e5"], "🩻"],
+  HOSPITAL: [["#0ea5e9", "#0369a1"], "🏥"],
+};
+function iconFor(typeKey, specialty) {
+  if (ICON_BY_TYPE[typeKey]) return ICON_BY_TYPE[typeKey];
+  const sp = norm(specialty);
+  const hit = ICON_BY_SPECIALTY.find(([k]) => sp.includes(k));
+  return hit ? [hit[1], hit[2]] : [["#3b82f6", "#1e40af"], "🩺"];
+}
 
 export function providerUrl(p) {
   return `provider.html?id=${encodeURIComponent(p.id)}`;
@@ -9,26 +31,24 @@ export function providerUrl(p) {
 export function providerCard(p, opts = {}) {
   const type = PROVIDER_TYPES[normalizeType(p.provider_type || p.type)];
   const url = providerUrl(p);
-  const avatar = `<div class="doc-avatar"><i class="fa-solid ${esc(type.icon)}" aria-hidden="true"></i>${
-    p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name_ar)}" loading="lazy" width="56" height="56" onerror="this.remove()">` : ''
-  }</div>`;
+  const [grad, emoji] = iconFor(normalizeType(p.provider_type || p.type), p.specialty_name || p.specialty);
+  const avatar = `<div class="doc-avatar" style="background:linear-gradient(135deg,${grad[0]},${grad[1]})" aria-hidden="true">${emoji}</div>`;
   const whatsappLink = whatsapp.providerInquiryLink ? whatsapp.providerInquiryLink(p.name_ar) : (p.phone ? `https://wa.me/2${p.phone.replace(/\D/g,'')}` : '#');
   const spec = p.specialty_name || '';
   const area = p.area_name || '';
   const price = p.price || p.consultation_price;
-  const priceText = price ? `${esc(price)} ج.م` : '--';
 
   return `
   <article class="doc-card" data-id="${esc(p.id)}">
     <div class="doc-card__head">
       <div class="doc-card__meta">
-        <div class="doc-type">${esc(type.label)} <span class="dot">·</span> ${(p.badge || p.is_featured) ? `<span class="badge-featured">${esc(p.badge || 'مميز')}</span>` : ''}</div>
+        <div class="doc-type">${esc(type.label)}${(p.badge || p.is_featured) ? ` <span class="dot">·</span> <span class="badge-featured">${esc(p.badge || 'مميز')}</span>` : ''}</div>
         <h3 class="doc-name"><a href="${url}">${esc(p.name_ar)}</a></h3>
         <div class="doc-sub">
           ${spec ? `<span><i class="fa-solid fa-stethoscope"></i> ${esc(spec)}</span>` : ''}
           ${area ? `<span><i class="fa-solid fa-location-dot"></i> ${esc(area)}</span>` : ''}
         </div>
-        <div class="doc-price">سعر الكشف: <b>${priceText}</b></div>
+        ${price ? `<div class="doc-price">سعر الكشف: <b>${esc(price)} ج.م</b></div>` : ''}
       </div>
       ${avatar}
     </div>
