@@ -7,6 +7,7 @@ try { mountLayout(); } catch (e) { console.warn('layout', e); }
 async function render() {
   const root = document.getElementById('specialties-grid');
   if (!root) return;
+  root.innerHTML = Array.from({ length: 12 }, () => '<div class="skeleton" style="height:104px" aria-hidden="true"></div>').join('');
   const specs = await taxonomy.specialties();
   root.innerHTML = specs.map((s) => `
     <a class="category-card" href="${categoryHref(s)}">

@@ -1,28 +1,32 @@
-// taxonomy من js/data/catalog.js (مولّد من scripts/gen-catalog.mjs) - بدون تكرار
-import { SPECIALTIES, AREAS as AREA_NAMES } from '../data/catalog.js';
+// taxonomy: التخصصات من Supabase (جدول specialties) مع fallback محلي - بدون تكرار
+import { loadCatalog } from './supabase.js';
 
-// dedupe by name_ar (أي id تاني بنفس الاسم يتشال)
-const seen = new Set();
-const UNIQUE_SPECIALTIES = SPECIALTIES.filter((s) => (seen.has(s.name_ar) ? false : seen.add(s.name_ar)));
-
-const AREAS = AREA_NAMES.map((n) => ({ id: n, name_ar: n, city_id: 'kfs' }));
+const FALLBACK_AREAS = ['كفر الشيخ', 'بيلا', 'الحامول', 'بلطيم', 'دسوق'];
 
 const SERVICES = [
   { id: 'كشف', name_ar: 'كشف' },
   { id: 'استشارة', name_ar: 'استشارة' },
 ];
 
+async function specialties() {
+  const { specialties: list } = await loadCatalog();
+  const seen = new Set();
+  return list.filter((s) => (seen.has(s.name_ar) ? false : seen.add(s.name_ar)));
+}
+
+async function areas() {
+  const { areas: fromData, providers } = await loadCatalog();
+  const names = fromData || [...new Set([...FALLBACK_AREAS, ...providers.map((p) => p.area_name).filter(Boolean)])];
+  return names.map((n) => ({ id: n, name_ar: n, city_id: 'kfs' }));
+}
+
 export const taxonomy = {
-  specialties: async () => UNIQUE_SPECIALTIES,
-  areas: async () => AREAS,
+  specialties,
+  areas,
   services: async () => SERVICES,
-  listSpecialties: () => UNIQUE_SPECIALTIES,
-  listAreas: () => AREAS,
-  listServices: () => SERVICES,
 };
 
-export const specialties = taxonomy.specialties;
-export const areas = taxonomy.areas;
+export { specialties, areas };
 export const services = taxonomy.services;
 
 /** رابط البحث للتصنيف: الأطباء بالتخصص، والباقي بنوع مقدم الخدمة */

@@ -34,6 +34,17 @@ export const CONFIG = Object.freeze({
     nameAr: 'كفرالشيخ',
   },
 
+  /**
+   * Supabase (public/anon credentials only - the anon key is safe in the browser
+   * as long as RLS is on; NEVER put the service_role key here).
+   * Leave empty to run on the bundled fallback data in js/data/catalog.js.
+   */
+  supabase: {
+    url: '',      // https://<project-ref>.supabase.co
+    anonKey: '',  // Project Settings -> API -> anon public key
+    timeoutMs: 6000,
+  },
+
   site: {
     /** Set to the production origin once known (used for canonical/OG). */
     baseUrl: '',

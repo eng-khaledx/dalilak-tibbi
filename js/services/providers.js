@@ -1,48 +1,9 @@
 // providers من js/data/catalog.js - متوافق مع search.js + provider.html
-import { PROVIDERS } from '../data/catalog.js';
-import { TYPE_ALIASES } from '../lib/config.js';
-
-const DATA = PROVIDERS.filter((p) => p.active && p.verified);
-
-const SPEC_ALIASES = {
-  skin: 'جلدية', derma: 'جلدية', dermatology: 'جلدية',
-  cardio: 'قلب', heart: 'قلب', cardiology: 'قلب',
-  pediatric: 'أطفال', pediatrics: 'أطفال', children: 'أطفال',
-  bones: 'عظام', ortho: 'عظام',
-};
-
-/** توحيد النص العربي للمقارنة: بدون همزات/تشكيل، ي=ى، ه=ة، lowercase */
-export function norm(v) {
-  return String(v ?? '')
-    .toLowerCase()
-    .replace(/[ً-ْـ]/g, '')
-    .replace(/[أإآٱ]/g, 'ا')
-    .replace(/ى/g, 'ي')
-    .replace(/ة/g, 'ه')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function typeKey(t) {
-  if (!t) return '';
-  return TYPE_ALIASES[String(t).toLowerCase()] || String(t).toUpperCase();
-}
-
-function matches(p, { q, specialtyId, specialty, areaId, area, type }) {
-  const raw = String(specialtyId || specialty || '').trim();
-  const s = norm(SPEC_ALIASES[raw.toLowerCase()] || raw);
-  const a = norm(areaId || area);
-  const qq = norm(q);
-
-  if (type && p.type !== typeKey(type)) return false;
-  if (s && s !== 'all' && !norm(`${p.specialty_id} ${p.specialty_name}`).includes(s)) return false;
-  if (a && !norm(p.area_name).includes(a)) return false;
-  if (qq && !norm(`${p.name_ar} ${p.specialty_name} ${p.area_name} ${p.address}`).includes(qq)) return false;
-  return true;
-}
+import { loadCatalog, getProviders } from './supabase.js';
+export { norm } from '../lib/match.js';
 
 /** مميزون متنوعين: دكتور / معمل / دكتور / صيدلية / أشعة / دكتور ... كل دكتور من تخصص مختلف */
-function diverseFeatured(limit) {
+function diverseFeatured(DATA, limit) {
   const pool = DATA.filter((p) => p.is_featured);
   const byType = {};
   pool.forEach((p) => { (byType[p.type] = byType[p.type] || []).push(p); });
@@ -62,21 +23,25 @@ function diverseFeatured(limit) {
 }
 
 export const providers = {
-  all: async () => DATA,
+  all: async () => (await loadCatalog()).providers,
 
   get: async (id) => {
     if (!id) return null;
     const low = String(id).toLowerCase();
-    return DATA.find((p) => p.id.toLowerCase() === low || p.slug.toLowerCase() === low) || null;
+    const { providers: DATA } = await loadCatalog();
+    return DATA.find((p) => p.id.toLowerCase() === low || p.uuid === id) || null;
   },
 
-  featured: async (limit = 20) => (limit <= 12 ? diverseFeatured(limit) : DATA.slice(0, limit)),
+  featured: async (limit = 20) => {
+    const { providers: DATA } = await loadCatalog();
+    return limit <= 12 ? diverseFeatured(DATA, limit) : DATA.slice(0, limit);
+  },
 
   /** كل النتائج بدون pagination (للعروض وغيرها) */
-  list: async (filters = {}) => DATA.filter((p) => matches(p, filters)),
+  list: (filters = {}) => getProviders(filters),
 
   search: async ({ q, specialtyId, specialty, areaId, area, type, page = 1 } = {}) => {
-    const filtered = DATA.filter((p) => matches(p, { q, specialtyId, specialty, areaId, area, type }));
+    const filtered = await getProviders({ q, specialtyId, specialty, areaId, area, type });
     const total = filtered.length;
     const pageSize = 12;
     const pages = Math.max(1, Math.ceil(total / pageSize));

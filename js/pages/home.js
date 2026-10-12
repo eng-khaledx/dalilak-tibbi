@@ -1,7 +1,7 @@
 import { CONFIG } from '../lib/config.js';
 import { esc, formatPrice, formatDateOnly } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
-import { initReveal, emptyState, errorState } from '../components/ui.js';
+import { initReveal, emptyState, errorState, skeletonCards } from '../components/ui.js';
 import { providerGrid } from '../components/provider-card.js';
 import { bindLeadTriggers } from '../components/lead-modal.js';
 import { taxonomy, categoryHref } from '../services/taxonomy.js';
@@ -37,6 +37,7 @@ async function loadAreas() {
 /* ---------- Categories ---------- */
 async function loadCategories() {
   const root = document.getElementById('category-grid');
+  root.innerHTML = Array.from({ length: 12 }, () => '<div class="skeleton" style="height:104px" aria-hidden="true"></div>').join('');
   try {
     const specs = await taxonomy.specialties();
     root.innerHTML = specs.map((s) => `
@@ -52,6 +53,7 @@ async function loadCategories() {
 /* ---------- Featured ---------- */
 async function loadFeatured() {
   const root = document.getElementById('featured-root');
+  root.innerHTML = `<div class="provider-grid">${skeletonCards(6)}</div>`;
   try {
     const [list, live] = await Promise.all([providers.featured(6), offers.active()]);
     if (!list.length) {

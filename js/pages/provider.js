@@ -1,7 +1,7 @@
 import { esc } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
 import { providers } from '../services/providers.js';
-import { SPECIALTIES } from '../data/catalog.js';
+import { taxonomy } from '../services/taxonomy.js';
 
 try { mountLayout(); } catch(e) { console.warn('layout', e); }
 
@@ -44,7 +44,7 @@ async function init() {
 
     if (!provider) {
       // ID مش موجود: حوّل لصفحة البحث بالتخصص (لو اتعرف من الـ ID) أو البحث العام
-      const spec = SPECIALTIES.find((s) => id.toLowerCase().includes(s.slug) || id.includes(s.name_ar));
+      const spec = (await taxonomy.specialties()).find((s) => (s.slug && id.toLowerCase().includes(s.slug)) || id.includes(s.name_ar));
       const target = spec
         ? (spec.provider_type === 'DOCTOR' ? `search.html?specialty=${encodeURIComponent(spec.id)}` : `search.html?type=${encodeURIComponent(spec.provider_type)}`)
         : 'search.html';
