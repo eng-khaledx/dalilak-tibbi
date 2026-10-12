@@ -85,6 +85,10 @@ pharms.forEach((n, k) => add({ id: 'pharm-' + (k + 1), name: n, catSlug: 'pharma
 hosps.forEach((n, k) => add({ id: 'hosp-' + (k + 1), name: n, catSlug: 'hospitals', specialty_name: 'مستشفى خاص', is_featured: k === 0 }));
 cosm.forEach((n, k) => add({ id: 'cosm-' + (k + 1), name: n, catSlug: 'cosmetic', specialty_name: 'تجميل', is_featured: k === 0 }));
 
+// Legacy ids still referenced by offers (js/services/offers.js, js/pages/offers.js)
+add({ id: 'dr-noura-sayed', name: 'د. نورا السيد', catSlug: 'dermatology', price: 300, is_featured: false });
+add({ id: 'dr-ahmed-mansour', name: 'د. أحمد منصور', catSlug: 'cardiology', price: 350, is_featured: false });
+
 /* ---------- JS catalog ---------- */
 const jsSpecs = CATS.map((c) => ({ id: c.name, slug: c.slug, name_ar: c.name, icon: c.icon, provider_type: c.jsType }));
 const jsProviders = providers.map((p) => {

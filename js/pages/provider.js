@@ -1,6 +1,7 @@
 import { esc } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
 import { providers } from '../services/providers.js';
+import { SPECIALTIES } from '../data/catalog.js';
 
 try { mountLayout(); } catch(e) { console.warn('layout', e); }
 
@@ -42,17 +43,12 @@ async function init() {
     }
 
     if (!provider) {
-      if (root) root.innerHTML = `
-        <div class="container" style="padding:80px 20px;text-align:center">
-          <i class="fa-solid fa-user-doctor" style="font-size:64px;color:#cbd5e1;margin-bottom:20px;display:block"></i>
-          <h2>الدكتور غير موجود</h2>
-          <p style="color:#64748b">ID: ${esc(id)}</p>
-          <p style="color:#64748b;font-size:13px;margin-top:10px">المتاح: dr-noura-sayed, dr-ahmed-mansour</p>
-          <div style="margin-top:20px;display:flex;gap:10px;justify-content:center">
-            <a href="search.html" class="btn btn--primary">رجوع للبحث</a>
-            <a href="provider.html?id=dr-noura-sayed" class="btn btn--outline">جرب د. نورا</a>
-          </div>
-        </div>`;
+      // ID مش موجود: حوّل لصفحة البحث بالتخصص (لو اتعرف من الـ ID) أو البحث العام
+      const spec = SPECIALTIES.find((s) => id.toLowerCase().includes(s.slug) || id.includes(s.name_ar));
+      const target = spec
+        ? (spec.provider_type === 'DOCTOR' ? `search.html?specialty=${encodeURIComponent(spec.id)}` : `search.html?type=${encodeURIComponent(spec.provider_type)}`)
+        : 'search.html';
+      window.location.replace(target);
       return;
     }
 

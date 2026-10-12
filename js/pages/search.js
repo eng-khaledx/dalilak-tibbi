@@ -1,4 +1,4 @@
-import { CONFIG, PROVIDER_TYPES } from '../lib/config.js';
+import { CONFIG, PROVIDER_TYPES, TYPE_ALIASES } from '../lib/config.js';
 import { esc, debounce } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
 import { emptyState, errorState, skeletonCards } from '../components/ui.js';
@@ -32,6 +32,7 @@ const SPECIALTY_MAP = {
   'pediatrics': 'أطفال',
   'children': 'أطفال',
   'اطفال': 'أطفال',
+  'رمد': 'رمد (عيون)',
   'bones': 'عظام',
   'ortho': 'عظام',
 };
@@ -48,7 +49,8 @@ function readUrl() {
   state.q = p.get('q') || '';
   state.specialty = normalizeSpecialty(p.get('specialty') || '');
   state.area = p.get('area') || '';
-  state.type = p.get('type') || '';
+  const rawType = p.get('type') || '';
+  state.type = PROVIDER_TYPES[rawType] ? rawType : (TYPE_ALIASES[rawType.toLowerCase()] || rawType);
   state.service = p.get('service') || '';
   state.offer = p.get('offer') === '1';
   state.page = Math.max(1, parseInt(p.get('page') || '1', 10) || 1);
