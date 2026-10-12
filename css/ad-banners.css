@@ -1,0 +1,67 @@
+/* Ad banners - pure CSS (no images). Hero card slider + featured ads slider. */
+
+/* ---------- Hero ---------- */
+.hero { padding: 48px 0; background: #f8fafc; }
+.hero__grid {
+  display: grid; grid-template-columns: 1fr 420px; gap: 24px; align-items: center;
+  max-width: 1200px; margin: 0 auto; padding: 0 16px;
+}
+@media (max-width: 1000px) { .hero__grid { grid-template-columns: 1fr; } }
+
+.hero-ad { position: relative; width: 420px; max-width: 100%; height: 380px; margin-inline: auto; border-radius: 18px; overflow: hidden; box-shadow: 0 14px 36px rgba(7, 31, 73, .14); }
+.hero-ad__slide {
+  position: absolute; inset: 0; z-index: 0; opacity: 0; visibility: hidden; transition: opacity .6s, visibility .6s;
+  display: flex; flex-direction: column; justify-content: space-between; padding: 22px 22px 40px; color: #fff;
+}
+.hero-ad__slide.is-active { opacity: 1; visibility: visible; z-index: 1; }
+.hero-ad__slide--green { background: linear-gradient(135deg, #065f46, #10b981); }
+.hero-ad__slide--blue  { background: linear-gradient(135deg, #071F49, #1e40af 60%, #0ea5e9); }
+.hero-ad__slide--red   { background: linear-gradient(135deg, #7f1d1d, #ef4444); }
+.hero-ad__badge { align-self: flex-start; background: #fff; color: #065f46; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+.hero-ad__slide--blue .hero-ad__badge { color: #071F49; }
+.hero-ad__slide--red .hero-ad__badge { color: #7f1d1d; }
+.hero-ad__title { margin: 14px 0 6px; font-size: 22px; font-weight: 800; line-height: 1.35; text-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
+.hero-ad__sub { margin: 0; font-size: 13px; opacity: .92; }
+.hero-ad__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
+.hero-ad__btn { background: #fff; color: #065f46; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 14px; text-decoration: none; }
+.hero-ad__slide--blue .hero-ad__btn { color: #071F49; }
+.hero-ad__slide--red .hero-ad__btn { color: #7f1d1d; }
+.hero-ad__discount { background: rgba(255, 255, 255, .2); border: 1px solid rgba(255, 255, 255, .35); padding: 6px 12px; border-radius: 10px; font-size: 18px; font-weight: 800; direction: ltr; }
+
+/* ---------- Dots (shared) ---------- */
+.ad-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+.ad-dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 10px; background: #fff; opacity: .55; cursor: pointer; transition: all .3s; box-shadow: 0 1px 3px rgba(0, 0, 0, .35); }
+.ad-dot.is-active { width: 24px; opacity: 1; }
+
+/* ---------- Featured ads ---------- */
+.ads-section { padding: 48px 0; background: #fff; }
+.ads-section__head { display: flex; align-items: center; gap: 8px; width: 90%; max-width: 980px; margin: 0 auto 12px; }
+.ads-section__tag { background: #0ea5e9; color: #fff; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 800; }
+.ads-section__title { margin: 0; font-size: 16px; font-weight: 700; }
+
+.ads-slider { position: relative; width: 90%; max-width: 980px; height: 220px; margin: 0 auto; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, .08); }
+.ad-banner {
+  position: absolute; inset: 0; z-index: 0; opacity: 0; visibility: hidden; transition: opacity .7s, visibility .7s;
+  display: flex; align-items: center; gap: 28px; padding: 24px 40px 36px; color: #0f172a;
+}
+.ad-banner.is-active { opacity: 1; visibility: visible; z-index: 1; }
+.ad-banner--sky   { background: linear-gradient(120deg, #e0f2fe, #bae6fd); }
+.ad-banner--amber { background: linear-gradient(120deg, #fef3c7, #fde68a); }
+.ad-banner--pink  { background: linear-gradient(120deg, #fce7f3, #fbcfe8); }
+/* first child sits on the right in RTL */
+.ad-banner__icon { flex: none; width: 96px; height: 96px; display: grid; place-items: center; font-size: 64px; line-height: 1; background: rgba(255, 255, 255, .6); border-radius: 50%; }
+.ad-banner__body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; min-width: 0; }
+.ad-banner__text { margin: 0; font-size: 22px; font-weight: 800; line-height: 1.4; }
+.ad-banner__btn { background: #071F49; color: #fff; padding: 9px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; text-decoration: none; }
+.ad-banner__btn:hover { background: #0b2d6b; }
+
+@media (max-width: 700px) {
+  .ads-slider { width: 100%; border-radius: 0; height: 240px; }
+  .ad-banner { gap: 14px; padding: 18px 18px 34px; }
+  .ad-banner__icon { width: 64px; height: 64px; font-size: 40px; }
+  .ad-banner__text { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-ad__slide, .ad-banner { transition: none; } }
+
+/* 48px rhythm between homepage sections */
+#main > .section { padding-block: 48px; }
