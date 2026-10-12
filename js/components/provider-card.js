@@ -22,7 +22,7 @@ export function providerCard(p, opts = {}) {
   <article class="doc-card" data-id="${esc(p.id)}">
     <div class="doc-card__head">
       <div class="doc-card__meta">
-        <div class="doc-type">${esc(type.label)} <span class="dot">·</span> <span class="badge-featured">مميز</span></div>
+        <div class="doc-type">${esc(type.label)} <span class="dot">·</span> ${(p.badge || p.is_featured) ? `<span class="badge-featured">${esc(p.badge || 'مميز')}</span>` : ''}</div>
         <h3 class="doc-name"><a href="${url}">${esc(p.name_ar)}</a></h3>
         <div class="doc-sub">
           ${spec ? `<span><i class="fa-solid fa-stethoscope"></i> ${esc(spec)}</span>` : ''}

@@ -1,6 +1,7 @@
 import { esc } from '../lib/utils.js';
 import { mountLayout } from '../components/layout.js';
 import { providers } from '../services/providers.js';
+import { whatsapp } from '../services/whatsapp.js';
 import { offers } from '../services/offers.js';
 
 try { mountLayout(); } catch(e){}
@@ -25,9 +26,10 @@ function offerCard(offer, provider) {
   const name = provider?.name_ar || provider?.name || 'دكتور';
   const spec = provider?.specialty_name || provider?.specialty || offer.tag || '';
   const area = provider?.area_name || provider?.area || '';
-  const phone = provider?.phone || '01000000000';
+  const phone = provider?.phone || '';
   const img = provider?.image_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=071F49&color=fff&size=100`;
-  const wa = `https://wa.me/2${phone.replace(/^0/,'').replace(/[^0-9]/g,'')}?text=${encodeURIComponent(`عايز استفيد من عرض: ${offer.title} عند ${name}`)}`;
+  const waText = `عايز استفيد من عرض: ${offer.title} عند ${name}`;
+  const wa = phone ? `https://wa.me/2${phone.replace(/^0/,'').replace(/[^0-9]/g,'')}?text=${encodeURIComponent(waText)}` : whatsapp.platformLink(waText);
 
   return `
   <div class="offer-card" data-tag="${esc(offer.tag)}" data-type="${esc(offer.type)}" style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.08);border:1px solid #f1f5f9;position:relative;transition:.2s">

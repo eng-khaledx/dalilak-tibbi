@@ -37,7 +37,7 @@ function mapProvider(r, specBySlug) {
     phone: r.phone, whatsapp: r.whatsapp || r.phone,
     rating_avg: r.rating_avg, rating_count: r.rating_count,
     consultation_price: r.price, image_url: r.image_url,
-    is_featured: !!r.is_featured, active: r.active !== false, verified: !!r.verified,
+    is_featured: !!r.is_featured, badge: r.badge || '', active: r.active !== false, verified: !!r.verified,
   };
 }
 
